@@ -1,0 +1,11 @@
+.card {
+    @apply
+        p-4
+        mt-2
+        dark:bg-gray-700
+        border
+        border-gray-200
+        dark:border-gray-800
+        rounded-lg
+        shadow-md
+}

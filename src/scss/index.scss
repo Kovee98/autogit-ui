@@ -1,0 +1,44 @@
+@import './mixins/fonts.scss';
+@import './mixins/btns.scss';
+@import './mixins/cards.scss';
+@import './mixins/inputs.scss';
+
+* {
+    font-family: 'Merriweather Sans', Helvetica, Arial, sans-serif;
+    // font-family: 'Comfortaa', Helvetica, Arial, sans-serif;
+    // font-family: 'Cuprum', Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    // font-weight: 900;
+    font-weight: bold;
+}
+
+body {
+    height: 100vh;
+}
+
+.flip-x {
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+    -ms-filter: fliph; /*IE*/
+    filter: fliph; /*IE*/
+}
+
+.flip-y {
+    -moz-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    transform: scaleY(-1);
+    -ms-filter: flipv; /*IE*/
+    filter: flipv; /*IE*/
+}
+
+.flip-xy {
+    -moz-transform: scale(-1, -1);
+    -o-transform: scale(-1, -1);
+    -webkit-transform: scale(-1, -1);
+    transform: scale(-1, -1);
+}
