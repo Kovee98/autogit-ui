@@ -1,5 +1,6 @@
 import Home from './views/Home.vue';
 import Auth from './views/Auth.vue';
+import Dashboard from './views/Dashboard.vue';
 
 export default [
     {
@@ -8,9 +9,9 @@ export default [
         meta: { title: 'Home' }
     },
     {
-        path: '/home',
-        component: Home,
-        meta: { title: 'Home' }
+        path: '/dashboard',
+        component: Dashboard,
+        meta: { title: 'Dashboard' }
     },
     {
         path: '/auth',
