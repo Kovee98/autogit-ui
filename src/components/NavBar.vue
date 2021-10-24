@@ -42,7 +42,7 @@
     export default {
         setup () {
             const auth = () => {
-                window.location.href = 'https://github.com/login/oauth/authorize?client_id=99989ffeadeefa8f2d08&path=http://localhost:3000/auth';
+                window.location.href = 'http://localhost:4000/login';
             };
 
             return { auth };
