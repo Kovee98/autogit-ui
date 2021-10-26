@@ -1,6 +1,7 @@
 import Home from './views/Home.vue';
 import Auth from './views/Auth.vue';
 import Dashboard from './views/Dashboard.vue';
+import Blank from './views/Blank.vue';
 
 export default [
     {
@@ -17,6 +18,11 @@ export default [
         path: '/auth',
         component: Auth,
         meta: { title: 'Auth' }
+    },
+    {
+        path: '/blank',
+        component: Blank,
+        meta: { title: 'Blank' }
     },
     // {
     //     path: '/:path(.*)',
