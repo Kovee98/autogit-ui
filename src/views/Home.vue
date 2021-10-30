@@ -1,16 +1,17 @@
 <template>
-    <h1>Welcome to AutoGit</h1>
+    <h1>Home</h1>
 </template>
 
 <script>
-    import { ref } from 'vue';
+    import { onMounted } from 'vue';
+    import { useRouter } from 'vue-router';
 
     export default {
         setup () {
-            return {};
+            onMounted(() => {
+                const router = useRouter();
+                router.push('/dashboard');
+            });
         }
     }
 </script>
-
-<style scoped>
-</style>

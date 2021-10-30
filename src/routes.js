@@ -1,7 +1,8 @@
 import Home from './views/Home.vue';
-import Auth from './views/Auth.vue';
 import Dashboard from './views/Dashboard.vue';
-import Blank from './views/Blank.vue';
+import Repos from './views/Repos.vue';
+import Tasks from './views/Tasks.vue';
+import Login from './views/Login.vue';
 
 export default [
     {
@@ -10,19 +11,24 @@ export default [
         meta: { title: 'Home' }
     },
     {
+        path: '/login',
+        component: Login,
+        meta: { title: 'Login', navbar: false }
+    },
+    {
         path: '/dashboard',
         component: Dashboard,
         meta: { title: 'Dashboard' }
     },
     {
-        path: '/auth',
-        component: Auth,
-        meta: { title: 'Auth' }
+        path: '/repos',
+        component: Repos,
+        meta: { title: 'Repos' }
     },
     {
-        path: '/blank',
-        component: Blank,
-        meta: { title: 'Blank' }
+        path: '/tasks',
+        component: Tasks,
+        meta: { title: 'Tasks' }
     },
     // {
     //     path: '/:path(.*)',

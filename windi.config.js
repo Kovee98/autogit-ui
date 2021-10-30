@@ -1,14 +1,7 @@
-module.exports = {
-    // darkMode: 'class',
-    purge: {
-        enabled: process.env.NODE_ENV === 'production',
-        content: [
-            './index.html',
-            './src/**/*.vue',
-            './src/**/*.js',
-            './src/**/*.scss'
-        ]
-    },
+import { defineConfig } from 'vite-plugin-windicss';
+
+export default defineConfig({
+    purge: ['public/**/*.html'],
     theme: {
       themeVariants: ['dark'],
       customForms: (theme) => ({
@@ -43,18 +36,6 @@ module.exports = {
           // '700': '#374151',
           // '800': '#252f3f',
           // '900': '#161e2e',
-        },
-        'cool-gray': {
-          '50': '#fbfdfe',
-          '100': '#f1f5f9',
-          '200': '#e2e8f0',
-          '300': '#cfd8e3',
-          '400': '#97a6ba',
-          '500': '#64748b',
-          '600': '#475569',
-          '700': '#364152',
-          '800': '#27303f',
-          '900': '#1a202e',
         },
         red: {
           '50': '#fdf2f2',
@@ -171,7 +152,7 @@ module.exports = {
           xl: '36rem',
         },
         fontFamily: {
-          sans: ['Inter', ...defaultTheme.fontFamily.sans],
+        //   sans: ['Inter', ...defaultTheme.fontFamily.sans],
         },
       },
     },
@@ -202,26 +183,22 @@ module.exports = {
       divideColor: ['dark'],
       boxShadow: ['focus', 'dark:focus'],
     },
-    plugins: [
-      require('tailwindcss-multi-theme'),
-      require('@tailwindcss/custom-forms'),
-      plugin(({ addUtilities, e, theme, variants }) => {
-        const newUtilities = {}
-        Object.entries(theme('colors')).map(([name, value]) => {
-          if (name === 'transparent' || name === 'current') return
-          const color = value[300] ? value[300] : value
-          const hsla = Color(color).alpha(0.45).hsl().string()
+    // plugins: [
+    //   require('tailwindcss-multi-theme'),
+    //   require('@tailwindcss/custom-forms'),
+    //   plugin(({ addUtilities, e, theme, variants }) => {
+    //     const newUtilities = {}
+    //     Object.entries(theme('colors')).map(([name, value]) => {
+    //       if (name === 'transparent' || name === 'current') return
+    //       const color = value[300] ? value[300] : value
+    //       const hsla = Color(color).alpha(0.45).hsl().string()
   
-          newUtilities[`.shadow-outline-${name}`] = {
-            'box-shadow': `0 0 0 3px ${hsla}`,
-          }
-        })
+    //       newUtilities[`.shadow-outline-${name}`] = {
+    //         'box-shadow': `0 0 0 3px ${hsla}`,
+    //       }
+    //     })
   
-        addUtilities(newUtilities, variants('boxShadow'))
-      }),
-    ],
-    future: {
-        removeDeprecatedGapUtilities: true,
-        purgeLayersByDefault: true
-    }
-};
+    //     addUtilities(newUtilities, variants('boxShadow'))
+    //   }),
+    // ],
+});
