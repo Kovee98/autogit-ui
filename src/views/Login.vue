@@ -103,8 +103,6 @@
                 window.location.href = 'http://localhost:4000/login';
             };
 
-            // onMounted(auth.isAuthorized);
-
             return {
                 login
             };

@@ -16,6 +16,7 @@
 
 <script>
     import { onMounted, computed, onBeforeUpdate } from 'vue';
+    import { useRouter } from 'vue-router';
     import NavBar from './components/NavBar.vue';
     import auth from './js/auth.js';
 
@@ -31,10 +32,9 @@
                     return !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                 }
             });
+            const router = useRouter();
 
-            onBeforeUpdate(auth.isAuthorized);
-
-            // onMounted(auth.testAuth);
+            onMounted(() => auth.isAuthorized(router));
 
             return {
                 isDark
