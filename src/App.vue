@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import { onMounted, computed } from 'vue';
+    import { onMounted, computed, onBeforeUpdate } from 'vue';
     import NavBar from './components/NavBar.vue';
     import auth from './js/auth.js';
 
@@ -32,7 +32,9 @@
                 }
             });
 
-            onMounted(auth.checkAuth);
+            onBeforeUpdate(auth.isAuthorized);
+
+            // onMounted(auth.testAuth);
 
             return {
                 isDark

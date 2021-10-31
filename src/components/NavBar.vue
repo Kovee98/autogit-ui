@@ -22,15 +22,15 @@
                 :route="item.route"
             />
           </div>
-          <div class="px-6 my-6">
+          <!-- <div class="px-6 my-6">
             <button
                 @click="cookieTest"
-                class="mt-6 flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                class="flex items-center justify-between w-full px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
             >
               Test Cookie
               <span class="ml-2" aria-hidden="true">+</span>
             </button>
-          </div>
+          </div> -->
         </div>
       </aside>
 
@@ -75,15 +75,15 @@
                 :route="item.route"
             />
           </div>
-          <div class="px-6 my-6">
+          <!-- <div class="px-6 my-6">
             <button
                 @click="cookieTest"
-                class="mt-6 flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                class="flex items-center justify-between w-full px-4 py-2 mt-6 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
             >
               Test Cookie
               <span class="ml-2" aria-hidden="true">+</span>
             </button>
-          </div>
+          </div> -->
         </div>
       </aside>
       <div class="flex flex-col flex-1">
@@ -130,7 +130,7 @@
                   </svg>
                 </div>
                 <input
-                  class="w-full p-2 pl-8 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
+                  class="w-full pl-8 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 input dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
                   type="text"
                   placeholder="Search for projects"
                   aria-label="Search"
@@ -383,15 +383,6 @@
                 setTheme(isDark.value);
             };
 
-            const cookieTest = () => {
-                // window.location.href = 'http://localhost:4000/cookie';
-                fetch('http://localhost:4000/cookie')
-                    .then((res) => res.json())
-                    .then((res) => {
-                        debugger;
-                    });
-            };
-
             return {
                 isDark,
                 isNotificationsMenuOpen,
@@ -400,7 +391,6 @@
                 isSideMenuOpen,
                 loading: true,
                 items,
-                cookieTest,
                 toggleTheme,
             };
         }
