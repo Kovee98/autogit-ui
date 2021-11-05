@@ -94,9 +94,6 @@
 </template>
 
 <script>
-    import auth from '../js/auth.js';
-    import { onMounted, computed } from 'vue';
-
     export default {
         setup () {
             const login = () => {

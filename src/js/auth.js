@@ -11,7 +11,23 @@ const auth = {
                     router.push('/login');
                 }
             });
+    },
+
+    logout () {
+        console.log('logging out');
+        fetch('http://localhost:4000/logout', {
+            method: 'post',
+            credentials: 'include'
+        })
+            .then((res) => res.json())
+            .catch(() => false)
+            .then((res) => {
+                console.log('res:', res);
+            });
     }
 };
+
+export const isAuthorized = auth.isAuthorized;
+export const logout = auth.logout;
 
 export default auth;
