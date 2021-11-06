@@ -13,16 +13,19 @@ const auth = {
             });
     },
 
-    logout () {
-        console.log('logging out');
+    logout (router) {
         fetch('http://localhost:4000/logout', {
-            method: 'post',
+            method: 'delete',
             credentials: 'include'
         })
             .then((res) => res.json())
-            .catch(() => false)
+            .catch((err) => err)
             .then((res) => {
-                console.log('res:', res);
+                if (res.ok) {
+                    router.push('/login');
+                } else {
+                    console.error('There was an error logging in');
+                }
             });
     }
 };

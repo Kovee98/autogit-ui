@@ -15,10 +15,11 @@
 </template>
 
 <script>
-    import { onMounted, computed, onBeforeUpdate } from 'vue';
+    import { onMounted, computed } from 'vue';
     import { useRouter } from 'vue-router';
     import NavBar from './components/NavBar.vue';
-    import auth from './js/auth.js';
+    import { isAuthorized } from './js/auth.js';
+    import { local } from './js/storage.js';
 
     export default {
         components: {
@@ -26,15 +27,17 @@
         },
         setup () {
             const isDark = computed(() => {
-                if (window.localStorage.getItem('dark')) {
-                    return JSON.parse(window.localStorage.getItem('dark'));
+                const data = local.get('dark');
+
+                if (data) {
+                    return data;
                 } else {
                     return !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                 }
             });
             const router = useRouter();
 
-            onMounted(() => auth.isAuthorized(router));
+            onMounted(() => isAuthorized(router));
 
             return {
                 isDark
