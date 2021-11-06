@@ -1,36 +1,30 @@
+import http from './http.js';
+import { local } from './storage.js';
+
 const auth = {
-    isAuthorized (router) {
-        fetch('http://localhost:4000/session', {
-            credentials: 'include'
-        })
-            .then((res) => res.json())
-            .then((res) => res.ok && res.authenticated)
-            .catch(() => false)
-            .then((isAuthenticated) => {
-                if (!isAuthenticated) {
-                    router.push('/login');
-                }
-            });
+    getSession () {
+        return http.get('/user')
+            .catch((err) => {
+                console.log('auth:getSession:err:', err);
+                return null;
+            })
+            .then((res = {}) => res.ok ? res.session : null);
     },
 
     logout (router) {
-        fetch('http://localhost:4000/logout', {
-            method: 'delete',
-            credentials: 'include'
-        })
-            .then((res) => res.json())
+        return http.delete('/logout')
             .catch((err) => err)
             .then((res) => {
                 if (res.ok) {
                     router.push('/login');
                 } else {
-                    console.error('There was an error logging in');
+                    console.error('There was an error logging out');
                 }
             });
     }
 };
 
-export const isAuthorized = auth.isAuthorized;
+export const getSession = auth.getSession;
 export const logout = auth.logout;
 
 export default auth;

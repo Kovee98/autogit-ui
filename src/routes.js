@@ -8,12 +8,12 @@ export default [
     {
         path: '/',
         component: Home,
-        meta: { title: 'Home' }
+        meta: { title: 'Home', requireUser: false }
     },
     {
         path: '/login',
         component: Login,
-        meta: { title: 'Login', navbar: false }
+        meta: { title: 'Login', navbar: false, requireUser: false }
     },
     {
         path: '/dashboard',
@@ -33,5 +33,6 @@ export default [
     // {
     //     path: '/:path(.*)',
     //     component: NotFound
+    //     meta: { title: '404', navbar: false, requireUser: false }
     // }
 ];
