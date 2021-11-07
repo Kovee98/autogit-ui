@@ -18,7 +18,7 @@
     import { onMounted, computed } from 'vue';
     import { useRouter } from 'vue-router';
     import NavBar from './components/NavBar.vue';
-    import { getSession, cleanSession } from './js/auth.js';
+    import { getSession } from './js/auth.js';
     import { local } from './js/storage.js';
 
     export default {

@@ -1,8 +1,7 @@
 import Home from './views/Home.vue';
 import Dashboard from './views/Dashboard.vue';
-import Repos from './views/Repos.vue';
-import Tasks from './views/Tasks.vue';
 import Login from './views/Login.vue';
+import Notes from './views/Notes.vue';
 
 export default [
     {
@@ -21,14 +20,9 @@ export default [
         meta: { title: 'Dashboard' }
     },
     {
-        path: '/repos',
-        component: Repos,
-        meta: { title: 'Repos' }
-    },
-    {
-        path: '/tasks',
-        component: Tasks,
-        meta: { title: 'Tasks' }
+        path: '/notes',
+        component: Notes,
+        meta: { title: 'Notes' }
     },
     // {
     //     path: '/:path(.*)',

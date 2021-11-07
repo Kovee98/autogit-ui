@@ -13,7 +13,7 @@
             class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
             href="#"
           >
-            AutoGit
+            Notella
           </a>
           <div class="mt-6">
             <NavBarItem
@@ -56,7 +56,7 @@
             class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
             href="#"
           >
-            AutoGit
+            Notella
           </a>
 
           <div class="mt-6">
