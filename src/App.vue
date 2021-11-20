@@ -5,9 +5,9 @@
         </div>
         <div v-else>
             <NavBar>
-                <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                <!-- <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                     {{ $route.meta.title }}
-                </h2>
+                </h2> -->
                 <router-view />
             </NavBar>
         </div>
@@ -38,39 +38,39 @@
             });
 
             // set navigation guard
-            router.beforeEach((to, from, next) => {
-                const user = local.get('user');
-                // Redirect if user is disallowed to view the page
-                const isLoggedIn = !!user;
-                if (!isLoggedIn && to.meta.requireUser !== false) {
-                    return router.push('/login');
-                } else {
-                    return next();
-                }
-            });
+            // router.beforeEach((to, from, next) => {
+            //     const user = local.get('user');
+            //     // Redirect if user is disallowed to view the page
+            //     const isLoggedIn = !!user;
+            //     if (!isLoggedIn && to.meta.requireUser !== false) {
+            //         return router.push('/login');
+            //     } else {
+            //         return next();
+            //     }
+            // });
 
-            let timer = null;
-            onMounted(async () => {
-                const session = await getSession(router);
-                const user = session?.passport?.user;
+            // let timer = null;
+            // onMounted(async () => {
+            //     const session = await getSession(router);
+            //     const user = session?.passport?.user;
 
-                if (!session) {
-                    router.push('/login');
-                    local.remove('user');
-                } else {
-                    const expireDate = new Date(session?.cookie?.expires || Date.now());
-                    const currDate = new Date();
-                    const expiresIn = expireDate - currDate;
+            //     if (!session) {
+            //         router.push('/login');
+            //         local.remove('user');
+            //     } else {
+            //         const expireDate = new Date(session?.cookie?.expires || Date.now());
+            //         const currDate = new Date();
+            //         const expiresIn = expireDate - currDate;
 
-                    clearTimeout(timer);
-                    timer = setTimeout(() => {
-                        router.push('/login');
-                        local.remove('user');
-                    }, expiresIn);
+            //         clearTimeout(timer);
+            //         timer = setTimeout(() => {
+            //             router.push('/login');
+            //             local.remove('user');
+            //         }, expiresIn);
 
-                    local.set('user', user);
-                }
-            });
+            //         local.set('user', user);
+            //     }
+            // });
 
             return {
                 isDark

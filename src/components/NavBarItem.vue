@@ -55,7 +55,7 @@
     </ul>
 </template>
 
-<script lang="ts">
+<script>
     import { computed } from 'vue';
     import { useRoute } from 'vue-router';
 

@@ -22,6 +22,7 @@
                 :name="item.name"
                 :route="item.route"
             />
+            <NavBarTags />
           </div>
         </div>
       </aside>
@@ -66,6 +67,7 @@
                 :name="item.name"
                 :route="item.route"
             />
+            <NavBarTags />
           </div>
         </div>
       </aside>
@@ -340,12 +342,14 @@
 <script>
     import { ref } from 'vue';
     import NavBarItem from './NavBarItem.vue';
+    import NavBarTags from './NavBarTags.vue';
     import { logout } from '../js/auth.js';
     import { local } from '../js/storage.js';
 
     export default {
         components: {
-            NavBarItem
+            NavBarItem,
+            NavBarTags
         },
         setup () {
             const isDark = ref(false);
@@ -354,9 +358,9 @@
             const isPagesMenuOpen = ref(false);
             const isSideMenuOpen = ref(false);
             const items = [
-                { name: 'Dasboard', route: '/dashboard'},
-                { name: 'Repos', route: '/repos'},
-                { name: 'Tasks', route: '/tasks'},
+                // { name: 'Dasboard', route: '/dashboard'},
+                // { name: 'Repos', route: '/repos'},
+                // { name: 'Tasks', route: '/tasks'},
             ];
 
             const setTheme = (value) => {

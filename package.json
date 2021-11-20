@@ -9,6 +9,9 @@
         "fontello:open": "rm -r ./.fontello-session & fontello-cli --config ./src/scss/fontello/config.json open"
     },
     "dependencies": {
+        "@vueuse/rxjs": "^6.9.2",
+        "dexie": "^3.2.0",
+        "rxjs": "^7.4.0",
         "vue": "^3.2.16",
         "vue-router": "^4.0.12"
     },

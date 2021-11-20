@@ -3,16 +3,19 @@ import config from './config.js';
 const http = {
     baseUrl: config.apiUrl,
     defaults: {
+        headers: {
+            'Content-Type': 'application/json'
+        },
         credentials: 'include'
     },
 
     get (path, opts) {
-        return fetch(`${http.baseUrl}${path}`, Object.assign(http.defaults, opts, { method: 'get' }))
+        return fetch(`${http.baseUrl}${path}`, Object.assign({}, http.defaults, opts, { method: 'get' }))
             .then((res) => res.json());
     },
 
     post (path, opts) {
-        return fetch(`${http.baseUrl}${path}`, Object.assign(http.defaults, opts, { method: 'post' }))
+        return fetch(`${http.baseUrl}${path}`, Object.assign({}, http.defaults, opts, { method: 'post' }))
             .then((res) => res.json());
     },
 

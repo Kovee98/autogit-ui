@@ -10,7 +10,7 @@
         setup () {
             onMounted(() => {
                 const router = useRouter();
-                router.push('/dashboard');
+                router.push('/notes');
             });
         }
     }

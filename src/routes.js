@@ -24,6 +24,11 @@ export default [
         component: Notes,
         meta: { title: 'Notes' }
     },
+    {
+        path: '/settings',
+        component: Notes,
+        meta: { title: 'Notes' }
+    },
     // {
     //     path: '/:path(.*)',
     //     component: NotFound
