@@ -20,12 +20,15 @@
     import NavBar from './components/NavBar.vue';
     import { getSession } from './js/auth.js';
     import { local } from './js/storage.js';
-    import { init } from './js/db.js';
+    // import { init } from './js/db.js';
+    // import pdb from './js/pdb.js';
+    import { initDb } from './js/rxdb.js';
 
     export default {
         components: {
             NavBar
         },
+
         setup () {
             const router = useRouter();
             const isDark = computed(() => {
@@ -52,7 +55,8 @@
 
             // let timer = null;
             onMounted(async () => {
-                await init();
+                // pdb.init();
+                // await init();
                 // const session = await getSession(router);
                 // const user = session?.passport?.user;
 

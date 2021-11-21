@@ -2,6 +2,7 @@ import Home from './views/Home.vue';
 import Dashboard from './views/Dashboard.vue';
 import Login from './views/Login.vue';
 import Notes from './views/Notes.vue';
+import Redirect from './views/Redirect.vue';
 
 export default [
     {
@@ -13,6 +14,11 @@ export default [
         path: '/login',
         component: Login,
         meta: { title: 'Login', navbar: false, requireUser: false }
+    },
+    {
+        path: '/redirect',
+        component: Redirect,
+        meta: { title: 'Redirect', navbar: false, requireUser: false }
     },
     {
         path: '/dashboard',

@@ -6,22 +6,39 @@
         "build": "vite build",
         "serve": "vite preview",
         "fontello:generate": "rm -r ./.fontello-session & fontello-cli --config ./src/scss/fontello/config.json --css ./src/scss/fontello/css --font ./src/scss/fontello/font install",
-        "fontello:open": "rm -r ./.fontello-session & fontello-cli --config ./src/scss/fontello/config.json open"
+        "fontello:open": "rm -r ./.fontello-session & fontello-cli --config ./src/scss/fontello/config.json open",
+        "postinstall": "node ./node_modules/frontend-dependencies/index.js"
     },
     "dependencies": {
+        "@babel/polyfill": "^7.12.1",
         "@vueuse/rxjs": "^6.9.2",
+        "crypto-pouch": "^4.0.1",
         "dexie": "^3.2.0",
+        "frontend-dependencies": "^2.0.0",
+        "pouchdb": "^7.2.2",
+        "pouchdb-adapter-idb": "^7.2.2",
+        "pouchdb-authentication": "^1.1.3",
         "rxjs": "^7.4.0",
         "vue": "^3.2.16",
         "vue-router": "^4.0.12"
     },
     "devDependencies": {
         "@vitejs/plugin-vue": "^1.9.3",
+        "eslint": "7.32.0",
         "sass": "^1.43.3",
         "vite": "^2.6.4",
         "vite-plugin-pages": "^0.18.1",
         "vite-plugin-windicss": "^1.4.12",
-        "windicss": "^3.1.9",
-        "eslint": "7.32.0"
+        "windicss": "^3.1.9"
+    },
+    "frontendDependencies": {
+        "target": "src/vendor/",
+        "packages": {
+            "rxdb": {
+                "version": "10.5.3",
+                "src": "dist/*",
+                "namespaced": true
+            }
+        }
     }
 }

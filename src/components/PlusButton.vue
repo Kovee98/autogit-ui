@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import { db, loadData } from '../js/db.js';
+    import { db, syncData } from '../js/db.js';
     import http from '../js/http.js';
 
     export default {
@@ -42,7 +42,11 @@
             };
 
             const clearAll = async () => {
-                await db.notes.clear();
+                // await db.notes.clear();
+                await db.notes.toArray()
+                    .then((notes) => notes.map((note) => ({ ...note, _deleted: true })))
+                    .then((notes) => db.notes.bulkPut(notes));
+
                 console.log('deleted');
             };
 
@@ -62,21 +66,12 @@
                 console.log('saved');
             };
 
-            const loadData = async () => {
-                const data = await db.notes.toArray();
-                await http.put('/notes', {
-                    body: JSON.stringify({ data })
-                });
-
-                console.log('saved');
-            };
-
             return {
                 addNote,
                 clearAll,
                 getAll,
                 saveAll,
-                loadData
+                syncData
             };
         }
     }

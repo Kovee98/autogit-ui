@@ -8,6 +8,9 @@ import 'virtual:windi-components.css'
 import './scss/index.scss';
 import './scss/fontello/css/fontello.css';
 import 'virtual:windi-utilities.css'
+import '@babel/polyfill';
+
+// import './vendor/rxdb/rxdb.browserify.js';
 
 const router = createRouter({
     history: createWebHistory(),
