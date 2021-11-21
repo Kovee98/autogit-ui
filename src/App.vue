@@ -20,6 +20,7 @@
     import NavBar from './components/NavBar.vue';
     import { getSession } from './js/auth.js';
     import { local } from './js/storage.js';
+    import { init } from './js/db.js';
 
     export default {
         components: {
@@ -50,27 +51,28 @@
             // });
 
             // let timer = null;
-            // onMounted(async () => {
-            //     const session = await getSession(router);
-            //     const user = session?.passport?.user;
+            onMounted(async () => {
+                await init();
+                // const session = await getSession(router);
+                // const user = session?.passport?.user;
 
-            //     if (!session) {
-            //         router.push('/login');
-            //         local.remove('user');
-            //     } else {
-            //         const expireDate = new Date(session?.cookie?.expires || Date.now());
-            //         const currDate = new Date();
-            //         const expiresIn = expireDate - currDate;
+                // if (!session) {
+                //     router.push('/login');
+                //     local.remove('user');
+                // } else {
+                //     const expireDate = new Date(session?.cookie?.expires || Date.now());
+                //     const currDate = new Date();
+                //     const expiresIn = expireDate - currDate;
 
-            //         clearTimeout(timer);
-            //         timer = setTimeout(() => {
-            //             router.push('/login');
-            //             local.remove('user');
-            //         }, expiresIn);
+                //     clearTimeout(timer);
+                //     timer = setTimeout(() => {
+                //         router.push('/login');
+                //         local.remove('user');
+                //     }, expiresIn);
 
-            //         local.set('user', user);
-            //     }
-            // });
+                //     local.set('user', user);
+                // }
+            });
 
             return {
                 isDark
