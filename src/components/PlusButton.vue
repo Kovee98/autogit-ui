@@ -26,13 +26,14 @@
 </template>
 
 <script>
-    import { db } from '../js/db.js';
+    import { db, loadData } from '../js/db.js';
     import http from '../js/http.js';
 
     export default {
         setup () {
             const addNote = async () => {
                 await db.notes.add({
+                    user: 'jkovalchik',
                     title: 'Example Note',
                     body: 'This is my first note in Notella!',
                     tags: []
@@ -61,11 +62,21 @@
                 console.log('saved');
             };
 
+            const loadData = async () => {
+                const data = await db.notes.toArray();
+                await http.put('/notes', {
+                    body: JSON.stringify({ data })
+                });
+
+                console.log('saved');
+            };
+
             return {
                 addNote,
                 clearAll,
                 getAll,
-                saveAll
+                saveAll,
+                loadData
             };
         }
     }

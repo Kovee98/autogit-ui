@@ -5,8 +5,17 @@ import http from './http.js';
 export const db = new Dexie('notella');
 
 db.version(1).stores({
-    notes: '++id, title, body, tags', // Primary key and indexed props
+    notes: '++nid, title, body, tags', // Primary key and indexed props
 });
+
+
+/*
+    philosphy:  
+        on start - save first and then pull
+        - won't lose data from when offline for long periods of time
+        - will merge the data for us
+*/
+
 
 async function saveData () {
     let start = new Date();
@@ -27,11 +36,17 @@ async function saveData () {
     setTimeout(saveData, Math.max(waitTime, 0));
 }
 
-async function loadData () {
-    const data = await http.get('/notes')
-        .then((res) => JSON.parse(res.data));
+export async function loadData () {
+    const localData = await db.notes.toArray();
+    console.log('localData:', localData);
 
-    console.log('loadData:', data);
+    const newData = await http.put('/notes', {
+        body: JSON.stringify({ data: localData })
+    });
+    // const data = await http.get('/notes')
+    //     .then((res) => JSON.parse(res.data));
+
+    console.log('newData:', newData);
 }
 
 // start data synchronization
@@ -41,7 +56,7 @@ export async function init () {
         await loadData();
     
         // start data saving loop after pull
-        setTimeout(saveData, config.saveStartDelay);
+        // setTimeout(saveData, config.saveStartDelay);
     } catch (err) {
         console.error('init:err', err);
     }
