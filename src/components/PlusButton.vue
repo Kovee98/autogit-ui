@@ -26,18 +26,23 @@
 </template>
 
 <script>
-    import { db, syncData } from '../js/db.js';
+    import { ref } from 'vue';
+    // import { db, syncData } from '../js/db.js';
+    import { db } from '../js/rxdb.js';
     import http from '../js/http.js';
 
     export default {
         setup () {
+            const num = ref(0);
+
             const addNote = async () => {
-                await db.notes.add({
-                    user: 'jkovalchik',
+                await db.notes.upsert({
+                    id: String(num.value),
                     title: 'Example Note',
                     body: 'This is my first note in Notella!',
                     tags: []
-                });
+                })
+                num.value++;
                 console.log('note added');
             };
 
@@ -71,7 +76,7 @@
                 clearAll,
                 getAll,
                 saveAll,
-                syncData
+                // syncData
             };
         }
     }

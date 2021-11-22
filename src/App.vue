@@ -55,6 +55,7 @@
 
             // let timer = null;
             onMounted(async () => {
+                await initDb();
                 // pdb.init();
                 // await init();
                 // const session = await getSession(router);

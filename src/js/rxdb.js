@@ -1,36 +1,54 @@
-// import { 
-//     addPouchPlugin,
-//     createRxDatabase,
-//     getRxStoragePouch
-// } from '../vendor/rxdb/rxdb.browserify.js';
+import "@babel/polyfill";
+import config from './config.js';
+import { addPouchPlugin, createRxDatabase, getRxStoragePouch } from 'rxdb';
+import noteSchema from '../schemas/notes.js';
 
-import {
-    addPouchPlugin,
-    createRxDatabase,
-    getRxStoragePouch
-} from '../vendor/rxdb/es';
+// add idb for local storage
+import * as idb from "pouchdb-adapter-idb";
+addPouchPlugin(idb);
 
-// add the pouchdb indexeddb adapter
-addPouchPlugin(require('pouchdb-adapter-idb'));
+// enable replication to couchdb
+import * as http from "pouchdb-adapter-http";
+addPouchPlugin(http);
 
-export async function initDb () {
-    // create a database
-    const db = await createRxDatabase({
-        // the name of the database
-        name: 'heroesdb',
-        // use pouchdb with the indexeddb-adapter as storage engine.
-        storage: getRxStoragePouch('idb'),
-        // optional password, used to encrypt fields when defined in the schema
-        password: 'myLongAndStupidPassword'
-    });
+export let db = null;
 
-    // create collections
-    await db.addCollections({
-    heroes: {
-        schema: mySchema
+export async function initDb (user = { username: 'jkovalchik' }) {
+    try {
+        const dbName = `notella_${user.username}`
+
+        // create a database
+        db = await createRxDatabase({
+            // the name of the database
+            name: dbName,
+            storage: getRxStoragePouch('idb'),
+            // optional password, used to encrypt fields when defined in the schema
+            password: config.dbPass
+        });
+
+        // create collections
+        await db.addCollections({
+            notes: {
+                schema: noteSchema
+            }
+        });
+
+        const sync = db.notes.syncCouchDB({
+            remote: `${config.dbUrl}/${dbName}`,
+            options: {
+                live: true,
+                retry: true
+            }
+        });
+
+        sync.denied$.subscribe((data) => {
+            console.log(`rxdb:sync:denied:`, data);
+        });
+
+        sync.error$.subscribe((err) => {
+            console.log(`rxdb:sync:error:`, err);
+        });
+    } catch (err) {
+        console.error('rxdb:init:err', err);
     }
-    });
-
-    // insert a document
-    db.heroes.insert({ name: 'Bob' });
 }

@@ -11,11 +11,13 @@
 </template>
 
 <script>
+    import { computed } from 'vue';
     import PlusButton from '../components/PlusButton.vue';
     import NoteCard from '../components/NoteCard.vue';
     import { liveQuery } from "dexie";
     import { useObservable } from "@vueuse/rxjs";
-    import { db } from '../js/db.js';
+    // import { db } from '../js/db.js';
+    import { db } from '../js/rxdb.js';
 
     export default{
         components: {
@@ -24,9 +26,26 @@
         },
 
         setup () {
-            const notes = useObservable(
-                liveQuery(() => db.notes.toArray())
-            );
+            const notes = computed(() => {
+                if ((db || {}).notes) {
+                    console.log('grabbing notes');
+                    return db.notes
+                        .find()
+                        .exec();
+                } else {
+                    return [];
+                }
+            });
+            // const notes = useObservable(
+            //     liveQuery(() => {
+            //         if ((db || {}).notes) {
+            //             return db.notes
+            //                 .find()
+            //                 .exec();
+            //         } else {
+            //             return [];
+            //         }
+            //     }));
 
             return {
                 notes
