@@ -11,13 +11,11 @@
 </template>
 
 <script>
-    import { computed } from 'vue';
+    import { reactive } from 'vue';
     import PlusButton from '../components/PlusButton.vue';
     import NoteCard from '../components/NoteCard.vue';
-    import { liveQuery } from "dexie";
-    import { useObservable } from "@vueuse/rxjs";
-    // import { db } from '../js/db.js';
     import { db } from '../js/rxdb.js';
+    import emitter from '../js/mitt.js';
 
     export default{
         components: {
@@ -26,26 +24,17 @@
         },
 
         setup () {
-            const notes = computed(() => {
-                if ((db || {}).notes) {
-                    console.log('grabbing notes');
-                    return db.notes
-                        .find()
-                        .exec();
-                } else {
-                    return [];
-                }
+            const notes = reactive([]);
+
+            emitter.on('update-notes', async () => {
+                console.log('update-notes');
+                const dbNotes = await db.notes
+                    .find()
+                    .exec();
+
+                // update array reactively
+                notes.splice(0, notes.length, ...dbNotes);
             });
-            // const notes = useObservable(
-            //     liveQuery(() => {
-            //         if ((db || {}).notes) {
-            //             return db.notes
-            //                 .find()
-            //                 .exec();
-            //         } else {
-            //             return [];
-            //         }
-            //     }));
 
             return {
                 notes

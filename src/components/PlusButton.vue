@@ -11,72 +11,29 @@
     >
         -
     </button>
-    <button
-        @click="saveAll"
-        class="fixed rounded-full bottom-8 right-55 bg-green-500 w-15 h-15 shadow-md text-gray-200"
-    >
-        Save
-    </button>
-    <button
-        @click="getAll"
-        class="fixed rounded-full bottom-8 right-75 bg-green-500 w-15 h-15 shadow-md text-gray-200"
-    >
-        Get
-    </button>
 </template>
 
 <script>
-    import { ref } from 'vue';
-    // import { db, syncData } from '../js/db.js';
     import { db } from '../js/rxdb.js';
-    import http from '../js/http.js';
+    import emitter from '../js/mitt.js';
 
     export default {
         setup () {
-            const num = ref(0);
-
             const addNote = async () => {
-                await db.notes.upsert({
-                    id: String(num.value),
+                await db.notes.add({
                     title: 'Example Note',
                     body: 'This is my first note in Notella!',
                     tags: []
-                })
-                num.value++;
-                console.log('note added');
+                });
             };
 
             const clearAll = async () => {
-                // await db.notes.clear();
-                await db.notes.toArray()
-                    .then((notes) => notes.map((note) => ({ ...note, _deleted: true })))
-                    .then((notes) => db.notes.bulkPut(notes));
-
-                console.log('deleted');
-            };
-
-            const getAll = async () => {
-                const data = await http.get('/notes')
-                    .then((res) => JSON.parse(res.data));
-
-                console.log('got:', data);
-            };
-
-            const saveAll = async () => {
-                const data = await db.notes.toArray();
-                await http.post('/notes', {
-                    body: JSON.stringify({ data })
-                });
-
-                console.log('saved');
+                await db.notes.clearAll();
             };
 
             return {
                 addNote,
                 clearAll,
-                getAll,
-                saveAll,
-                // syncData
             };
         }
     }
