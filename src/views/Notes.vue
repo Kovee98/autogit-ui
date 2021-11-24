@@ -4,6 +4,7 @@
             v-for="note in notes"
             :key="note.id"
             :note="note"
+            :open="openNote"
         />
     </div>
 
@@ -11,10 +12,10 @@
 </template>
 
 <script>
-    import { reactive } from 'vue';
+    import { onMounted, reactive, ref } from 'vue';
     import PlusButton from '../components/PlusButton.vue';
     import NoteCard from '../components/NoteCard.vue';
-    import { db } from '../js/rxdb.js';
+    import rxdb from '../js/rxdb.js';
     import emitter from '../js/mitt.js';
 
     export default{
@@ -24,19 +25,27 @@
         },
 
         setup () {
+            const openNote = ref( '-1');
             const notes = reactive([]);
 
-            emitter.on('update-notes', async () => {
-                console.log('update-notes');
-                const dbNotes = await db.notes
-                    .find()
-                    .exec();
+            const updateNotes = async () => {
+                const dbNotes = await rxdb?.db?.notes?.find().exec();
 
                 // update array reactively
-                notes.splice(0, notes.length, ...dbNotes);
+                if (Array.isArray(dbNotes)) {
+                    notes.splice(0, notes.length, ...dbNotes);
+                }
+            };
+
+            emitter.on('update-notes', updateNotes);
+            // onMounted(() => updateNotes);
+
+            emitter.on('open-note', (id) => {
+                openNote.value = id;
             });
 
             return {
+                openNote,
                 notes
             };
         }

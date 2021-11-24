@@ -33,36 +33,23 @@
 </template>
 
 <script>
+    import config from '../js/config.js';
+
     export default {
         setup () {
             const buttons = [
-                { name: 'Facebook', href: 'http://localhost:4000/facebook/login', icon: 'facebook' },
-                { name: 'Github', href: 'http://localhost:4000/github/login', icon: 'github' },
-                { name: 'Google', href: 'http://localhost:4000/facebook/login', icon: 'google' },
+                { name: 'Facebook', href: `${config.apiUrl}/facebook/login`, icon: 'facebook' },
+                { name: 'Github', href: `${config.apiUrl}/github/login`, icon: 'github' },
+                { name: 'Google', href: `${config.apiUrl}/facebook/login`, icon: 'google' },
             ];
 
             const login = (href) => {
                 window.location.href = href;
             };
 
-            // const facebook = () => {
-            //     window.location.href = 'http://localhost:4000/facebook/login';
-            // };
-
-            // const github = () => {
-            //     window.location.href = 'http://localhost:4000/github/login';
-            // };
-
-            // const google = () => {
-            //     window.location.href = 'http://localhost:4000/google/login';
-            // };
-
             return {
                 buttons,
                 login
-                // facebook,
-                // github,
-                // google
             };
         }
     };

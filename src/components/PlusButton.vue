@@ -14,21 +14,23 @@
 </template>
 
 <script>
-    import { db } from '../js/rxdb.js';
+    import db from '../js/rxdb.js';
     import emitter from '../js/mitt.js';
 
     export default {
         setup () {
             const addNote = async () => {
-                await db.notes.add({
-                    title: 'Example Note',
-                    body: 'This is my first note in Notella!',
+                const res = await db?.notes?.put({
+                    title: 'Untitled Note',
+                    body: '',
                     tags: []
                 });
+
+                emitter.emit('open-note', res.id);
             };
 
             const clearAll = async () => {
-                await db.notes.clearAll();
+                await db?.notes?.clearAll();
             };
 
             return {

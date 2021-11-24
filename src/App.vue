@@ -18,11 +18,8 @@
     import { onMounted, computed } from 'vue';
     import { useRouter } from 'vue-router';
     import NavBar from './components/NavBar.vue';
-    import { getSession } from './js/auth.js';
     import { local } from './js/storage.js';
-    // import { init } from './js/db.js';
-    // import pdb from './js/pdb.js';
-    import { initDb } from './js/rxdb.js';
+    import rxdb from './js/rxdb.js';
 
     export default {
         components: {
@@ -42,41 +39,23 @@
             });
 
             // set navigation guard
-            // router.beforeEach((to, from, next) => {
-            //     const user = local.get('user');
-            //     // Redirect if user is disallowed to view the page
-            //     const isLoggedIn = !!user;
-            //     if (!isLoggedIn && to.meta.requireUser !== false) {
-            //         return router.push('/login');
-            //     } else {
-            //         return next();
-            //     }
-            // });
+            router.beforeEach((to, from, next) => {
+                const user = local.get('user');
+                // Redirect if user is disallowed to view the page
+                const isLoggedIn = !!user;
+                if (!isLoggedIn && to.meta.requireUser !== false) {
+                    return router.push('/login');
+                } else {
+                    return next();
+                }
+            });
 
-            // let timer = null;
-            onMounted(async () => {
-                await initDb();
-                // pdb.init();
-                // await init();
-                // const session = await getSession(router);
-                // const user = session?.passport?.user;
+            onMounted(() => {
+                const user = local.get('user');
 
-                // if (!session) {
-                //     router.push('/login');
-                //     local.remove('user');
-                // } else {
-                //     const expireDate = new Date(session?.cookie?.expires || Date.now());
-                //     const currDate = new Date();
-                //     const expiresIn = expireDate - currDate;
-
-                //     clearTimeout(timer);
-                //     timer = setTimeout(() => {
-                //         router.push('/login');
-                //         local.remove('user');
-                //     }, expiresIn);
-
-                //     local.set('user', user);
-                // }
+                if (!!user) {
+                    rxdb.init(user);
+                }
             });
 
             return {

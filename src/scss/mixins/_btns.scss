@@ -29,6 +29,10 @@ button {
     }
 }
 
+.btn-primary {
+    @apply bg-yellow-800 text-white;
+}
+
 .btn-indigo {
     @apply bg-indigo-500 text-white;
 }

@@ -7,6 +7,7 @@
     import { useRouter } from 'vue-router';
     import { getSession } from '../js/auth.js';
     import { local } from '../js/storage.js';
+    import rxdb from '../js/rxdb.js';
 
     export default {
         setup () {
@@ -21,6 +22,8 @@
                     router.push('/login');
                 } else {
                     const user = session?.passport?.user;
+                    rxdb.init(user);
+
                     const expireDate = new Date(session?.cookie?.expires || Date.now());
                     const currDate = new Date();
                     const expiresIn = expireDate - currDate;
