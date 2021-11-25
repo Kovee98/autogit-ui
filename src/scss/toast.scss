@@ -1,0 +1,19 @@
+@import '@toast-ui/editor/dist/toastui-editor.css';
+@import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
+
+.border-override {
+    border: none !important;
+}
+
+.bg-transparent-override {
+    background-color: transparent !important;
+}
+
+.toastui-editor-md-mode .toastui-editor-md-container,
+.toastui-editor-ww-mode .toastui-editor-ww-container {
+    @apply bg-transparent-override;
+}
+
+.toastui-editor-defaultUI {
+    @apply border-override;
+}

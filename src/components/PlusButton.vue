@@ -5,12 +5,6 @@
     >
         <i class="icon-plus text-gray-200 text-lg" />
     </button>
-    <button
-        @click="clearAll"
-        class="fixed rounded-full bottom-8 right-30 bg-red-800 w-15 h-15 shadow-md text-gray-200 text-6xl"
-    >
-        -
-    </button>
 </template>
 
 <script>
@@ -29,13 +23,8 @@
                 emitter.emit('open-note', res.id);
             };
 
-            const clearAll = async () => {
-                await db?.notes?.clearAll();
-            };
-
             return {
                 addNote,
-                clearAll,
             };
         }
     }
