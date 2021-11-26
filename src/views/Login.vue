@@ -33,10 +33,14 @@
 </template>
 
 <script>
+    import { onMounted } from 'vue';
+    import { useRouter } from 'vue-router';
     import config from '../js/config.js';
+    import { isAuthorized } from '../js/auth.js';
 
     export default {
         setup () {
+            const router = useRouter();
             const buttons = [
                 { name: 'Facebook', href: `${config.apiUrl}/facebook/login`, icon: 'facebook' },
                 { name: 'Github', href: `${config.apiUrl}/github/login`, icon: 'github' },
@@ -46,6 +50,12 @@
             const login = (href) => {
                 window.location.href = href;
             };
+
+            onMounted(() => {
+                if (isAuthorized()) {
+                    router.push('/notes');
+                }
+            });
 
             return {
                 buttons,

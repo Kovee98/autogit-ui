@@ -8,9 +8,6 @@
         <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
             {{ note.title }}
         </p>
-        <!-- <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-            {{ note.body }}
-        </p> -->
     </div>
 
     <!-- expanded note card -->
@@ -33,7 +30,7 @@
 
             <i
                 @click="closeNote"
-                class="icon-cancel p-1 cursor-pointer text-lg text-gray-500"
+                class="icon-cancel p-1 cursor-pointer text-lg text-gray-500 mb-6"
             />
         </div>
 

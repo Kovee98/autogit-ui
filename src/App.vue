@@ -5,9 +5,6 @@
         </div>
         <div v-else>
             <NavBar>
-                <!-- <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                    {{ $route.meta.title }}
-                </h2> -->
                 <router-view />
             </NavBar>
         </div>
@@ -18,8 +15,10 @@
     import { onMounted, computed } from 'vue';
     import { useRouter } from 'vue-router';
     import NavBar from './components/NavBar.vue';
-    import { local } from './js/storage.js';
+    import { local, session } from './js/storage.js';
     import rxdb from './js/rxdb.js';
+    import { buildSession, setExpirationTimer, isAuthorized } from './js/auth.js';
+    import emitter from './js/mitt.js';
 
     export default {
         components: {
@@ -38,23 +37,26 @@
                 }
             });
 
+            emitter.on('expired', () => {
+                router.push('/login');
+            });
+
             // set navigation guard
             router.beforeEach((to, from, next) => {
-                const user = local.get('user');
-                // Redirect if user is disallowed to view the page
-                const isLoggedIn = !!user;
-                if (!isLoggedIn && to.meta.requireUser !== false) {
-                    return router.push('/login');
+                if (!isAuthorized() && to.meta.requireUser !== false) {
+                    return next('/login');
                 } else {
                     return next();
                 }
             });
 
-            onMounted(() => {
-                const user = local.get('user');
+            onMounted(async () => {
+                const isBuilt = isAuthorized() || await buildSession(router);
 
-                if (!!user) {
-                    rxdb.init(user);
+                if (isBuilt) {
+                    const user = session.get('user');
+                    await rxdb.init(user);
+                    setExpirationTimer();
                 }
             });
 

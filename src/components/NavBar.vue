@@ -304,7 +304,7 @@
                     <li class="flex">
                       <a
                         class="cursor-pointer inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        @click="logout($router)"
+                        @click="logOut"
                       >
                         <svg
                           class="w-4 h-4 mr-3"
@@ -341,17 +341,21 @@
 
 <script>
     import { ref } from 'vue';
+    import { useRouter } from 'vue-router';
     import NavBarItem from './NavBarItem.vue';
     import NavBarTags from './NavBarTags.vue';
     import { logout } from '../js/auth.js';
     import { local } from '../js/storage.js';
+    import rxdb from '../js/rxdb.js';
 
     export default {
         components: {
             NavBarItem,
             NavBarTags
         },
+
         setup () {
+            const router = useRouter();
             const isDark = ref(false);
             const isNotificationsMenuOpen = ref(false);
             const isProfileMenuOpen = ref(false);
@@ -372,6 +376,13 @@
                 setTheme(isDark.value);
             };
 
+            const logOut = async () => {
+                await logout();
+                await rxdb.stop();
+
+                router.push('/login');
+            };
+
             return {
                 isDark,
                 isNotificationsMenuOpen,
@@ -381,7 +392,7 @@
                 loading: true,
                 items,
                 toggleTheme,
-                logout
+                logOut
             };
         }
     }

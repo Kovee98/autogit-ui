@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    import { onMounted, reactive, ref } from 'vue';
+    import { reactive, ref } from 'vue';
     import PlusButton from '../components/PlusButton.vue';
     import NoteCard from '../components/NoteCard.vue';
     import rxdb from '../js/rxdb.js';

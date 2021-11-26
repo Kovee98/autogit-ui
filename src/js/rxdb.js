@@ -3,6 +3,7 @@ import config from './config.js';
 import { addPouchPlugin, createRxDatabase, getRxStoragePouch } from 'rxdb';
 import emitter from './mitt.js';
 import schemas from '../schemas';
+import { PROVIDERS } from "./enums.js";
 
 // add idb for local storage
 import * as idb from "pouchdb-adapter-idb";
@@ -21,10 +22,10 @@ const rxdb = {
         try {
             // create a database
             const db = await createRxDatabase({
-                name: `notella_${user.id}`,
+                name: `notella_${PROVIDERS[user.provider]}${user.id}`,
                 storage: getRxStoragePouch('idb'),
-                // used to encrypt fields when defined in the schema
-                password: config.dbPass
+                // TODO: figure out a way to have this password come dynamically from the user object
+                password: config.dbPass // used to encrypt fields when defined in the schema
             });
 
             return db;
@@ -89,7 +90,7 @@ const rxdb = {
 
             rxdb.db[name].start = async function (user) {
                 try {
-                    const remote = `${config.dbUrl}/notella_${user.id}_${name}`;
+                    const remote = `${config.dbUrl}/notella_${PROVIDERS[user.provider]}${user.id}_${name}`;
 
                     // do one way, one-off sync from the server until completion
                     const pull = rxdb.db[name].syncCouchDB({
@@ -153,6 +154,27 @@ const rxdb = {
         }
     },
 
+    async stop () {
+        try {
+            await rxdb?.notes?.remove();
+            // await rxdb?.settings?.remove();
+            await rxdb?.db?.remove();
+
+            await rxdb?.notes?.destroy();
+            // await rxdb?.settings?.destroy();
+            await rxdb?.db?.destroy();
+
+            rxdb.notes = undefined;
+            rxdb.settings = undefined;
+            rxdb.db = undefined;
+
+            return true;
+        } catch (err) {
+            console.error('rxdb:stop:err', err);
+            return false;
+        }
+    },
+
     async init (user = { id: 'test' }) {
         try {
             rxdb.db = rxdb.db || await rxdb.createDB(user);
@@ -168,5 +190,6 @@ const rxdb = {
 };
 
 export let db = rxdb.db;
+export let notes = rxdb.notes;
 
 export default rxdb;
