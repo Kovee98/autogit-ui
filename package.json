@@ -7,7 +7,7 @@
         "serve": "vite preview",
         "fontello:generate": "rm -r ./.fontello-session & fontello-cli --config ./src/scss/fontello/config.json --css ./src/scss/fontello/css --font ./src/scss/fontello/font install",
         "fontello:open": "rm -r ./.fontello-session & fontello-cli --config ./src/scss/fontello/config.json open",
-        "postinstall": "node ./node_modules/frontend-dependencies/index.js"
+        "couchdb:start": "docker run --name couchdb -p 5984:5984 -v /home/containers/volumes/couchdb/data:/opt/couchdb/data -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=password -d couchdb:3.2.0"
     },
     "dependencies": {
         "@babel/polyfill": "^7.12.1",
