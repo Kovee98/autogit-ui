@@ -8,19 +8,19 @@
         />
     </div>
 
-    <PlusButton />
+    <ActionButtons />
 </template>
 
 <script>
     import { reactive, ref } from 'vue';
-    import PlusButton from '../components/PlusButton.vue';
+    import ActionButtons from '../components/ActionButtons.vue';
     import NoteCard from '../components/NoteCard.vue';
     import rxdb from '../js/rxdb.js';
     import emitter from '../js/mitt.js';
 
     export default{
         components: {
-            PlusButton,
+            ActionButtons,
             NoteCard
         },
 
