@@ -20,7 +20,7 @@
             @click="closeNote"
             class="absolute left-0 top-0 w-screen h-screen bg-black opacity-75 z-40"
         />
-        <div class="w-140 h-225 z-50 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800 z-index-200 flex flex-col">
+        <div class="w-11/12 h-11/12 z-50 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800 z-index-200 flex flex-col">
             <div class="w-full flex justify-between">
                 <input
                     type="text"
@@ -34,8 +34,22 @@
                 />
             </div>
 
+            <!-- tags -->
+            <div class="flex items-center container">
+                <!-- <span class="m-1 bg-gray-900 hover:bg-gray-300 rounded-full px-2 py-1 text-xs text-gray-200 leading-loose cursor-pointer">#thing1</span>
+                <span class="m-1 bg-gray-900 hover:bg-gray-300 rounded-full px-2 py-1 text-xs text-gray-200 leading-loose cursor-pointer">#thing2</span>
+                <span class="m-1 bg-gray-900 hover:bg-gray-300 rounded-full px-2 py-1 text-xs text-gray-200 leading-loose cursor-pointer">#thing3</span> -->
+
+                <NoteCardTag
+                    v-for="tag, i in form.tags"
+                    :key="tag.id"
+                    v-model="form.tags[i]"
+                />
+            </div>
+
             <ToastEditor
                 v-model="form.body"
+                class="mt-3"
             />
 
             <!-- actions -->
@@ -71,11 +85,13 @@
 <script>
     import { ref } from 'vue';
     import ToastEditor from './ToastEditor.vue';
+    import NoteCardTag from './NoteCardTag.vue';
     import emitter from '../js/mitt.js';
     import db from '../js/rxdb.js';
 
     export default {
         components: {
+            NoteCardTag,
             ToastEditor
         },
 

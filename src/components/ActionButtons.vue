@@ -55,7 +55,7 @@
                 const res = await db?.notes?.put({
                     title: 'Untitled Note',
                     body: '',
-                    tags: []
+                    tags: [ 'test', 'things', 'whatup' ]
                 });
 
                 isOpen.value = false;
