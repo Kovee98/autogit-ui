@@ -14,7 +14,7 @@
     <!-- backdrop -->
     <div
         v-if="isOpen"
-        class="absolute left-0 top-0 w-screen h-screen z-index-100 flex items-center justify-center z-200"
+        class="absolute left-0 top-0 w-screen h-screen flex items-center justify-center z-250"
     >
         <div
             @click="closeNote"

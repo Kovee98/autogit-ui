@@ -29,6 +29,7 @@
                         v-for="tag in tags"
                         :key="tag.id"
                         @click="toggleTag(tag)"
+                        :class="isActive(tag) ? 'text-gray-200' : 'text-gray-500'"
                     >
                         #{{ tag }}
                     </button>
@@ -50,20 +51,26 @@
             const isOpen = ref(true);
             const tags = globals.tags;
 
-            // const toggleTag = (tag) => {
-            //     const filter = route?.query?.filter?.split(',') || [];
-            //     const newFilter = Array.from(new Set([...filter, tag])).join(',');
-            //     router.push({ query: { filter: newFilter } });
-            // };
             const toggleTag = (tag) => {
+                // toggle individual tag
                 globals.tagFilter[tag] = !globals.tagFilter[tag];
-                debugger;
+
+                // set new filter
+                const keys = Object.keys(globals.tagFilter);
+                let filter = keys.filter((tag) => globals.tagFilter[tag] === true).join(',') || undefined;
+
+                router.push({ query: { filter } });
+            };
+
+            const isActive = (tag) => {
+                return route?.query?.filter?.split(',')?.includes(tag);
             };
 
             return {
                 tags,
                 isOpen,
-                toggleTag
+                toggleTag,
+                isActive
             };
         }
     }

@@ -12,8 +12,8 @@
 </template>
 
 <script>
-    import { reactive, ref, onMounted } from 'vue';
-    import { useRouter } from 'vue-router';
+    import { reactive, ref, onMounted, watchEffect } from 'vue';
+    import { useRouter, useRoute } from 'vue-router';
     import ActionButtons from '../components/ActionButtons.vue';
     import NoteCard from '../components/NoteCard.vue';
     import rxdb from '../js/rxdb.js';
@@ -30,32 +30,41 @@
 
         setup () {
             const router = useRouter();
+            const route = useRoute();
             const openNote = ref( '-1');
             const notes = reactive([]);
 
-            const updateNotes = async () => {
-                const dbNotes = await rxdb?.db?.notes?.find().exec();
+            const updateNotes = async (filter) => {
+                let dbNotes = await rxdb?.notes?.find().exec();
 
-                // update array reactively
-                if (Array.isArray(dbNotes)) {
-                    notes.splice(0, notes.length, ...dbNotes);
-                }
-
+                // update tags
                 const tags = new Set();
-                for (let i = 0; i < notes?.length; i++) {
-                    for (let j = 0; j < notes[i]?.tags?.length; j++) {
-                        tags.add(notes[i]?.tags[j]);
+                for (let i = 0; i < dbNotes?.length; i++) {
+                    for (let j = 0; j < dbNotes[i]?.tags?.length; j++) {
+                        tags.add(dbNotes[i]?.tags[j]);
                     }
                 }
                 const tagsArr = Array.from(tags);
                 globals.tags.splice(0, globals.tags.length, ...tagsArr);
+
+                // update array reactively
+                if (Array.isArray(dbNotes)) {
+                    if (filter) {
+                        dbNotes = dbNotes.filter((note) => note?.tags?.some((tag) => filter?.includes(tag)));
+                    }
+
+                    notes.splice(0, notes.length, ...dbNotes);
+                }
             };
 
             emitter.on('update-notes', updateNotes);
-            // onMounted(() => updateNotes);
-
             emitter.on('open-note', (id) => {
                 openNote.value = id;
+            });
+
+            watchEffect(() => {
+                const filter = route?.query?.filter?.split(',');
+                updateNotes(filter);
             });
 
             onMounted(async () => {
