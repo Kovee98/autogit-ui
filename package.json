@@ -2,7 +2,7 @@
     "name": "notella-ui",
     "version": "0.0.0",
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --host",
         "build": "vite build",
         "serve": "vite preview",
         "fontello:generate": "rm -r ./.fontello-session & fontello-cli --config ./src/scss/fontello/config.json --css ./src/scss/fontello/css --font ./src/scss/fontello/font install",
@@ -34,6 +34,7 @@
         "sass": "^1.43.3",
         "vite": "^2.6.4",
         "vite-plugin-pages": "^0.18.1",
+        "vite-plugin-pwa": "^0.11.8",
         "vite-plugin-windicss": "^1.4.12",
         "windicss": "^3.1.9"
     }
