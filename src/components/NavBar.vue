@@ -5,11 +5,10 @@
     >
       <!-- Desktop sidebar -->
       <aside
-        class="z-20 flex-shrink-0 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block"
+        class="z-200 flex-shrink-0 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block"
       >
         <div class="py-4 text-gray-500 dark:text-gray-400">
           <a
-            @click="isAuth"
             class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
             href="#"
           >
@@ -32,23 +31,11 @@
       <div
         v-show="isSideMenuOpen"
         @click="isSideMenuOpen = false"
-        x-transition:enter="transition ease-in-out duration-150"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in-out duration-150"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
-      ></div>
+        class="fixed inset-0 z-200 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
+      />
       <aside
-        class="fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-gray-800 md:hidden"
-        v-show="isSideMenuOpen"
-        x-transition:enter="transition ease-in-out duration-150"
-        x-transition:enter-start="opacity-0 transform -translate-x-20"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in-out duration-150"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0 transform -translate-x-20"
+        class="fixed inset-y-0 z-250 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-gray-800 md:hidden transition-all duration-200 ease-out"
+        :class="isSideMenuOpen ? 'left-0 opactiy-100' : '-left-[16rem] opactiy-0'"
         @blur="isSideMenuOpen = false"
         @keydown.escape="isSideMenuOpen = false"
       >
@@ -71,16 +58,17 @@
           </div>
         </div>
       </aside>
+
       <div class="flex flex-col flex-1">
-        <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
+        <header class="z-200 py-4 bg-white shadow-md dark:bg-gray-800">
           <div
             class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300"
           >
             <!-- Mobile hamburger -->
             <button
-              class="p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
-              @click="isSideMenuOpen = !isSideMenuOpen"
-              aria-label="Menu"
+                @click="isSideMenuOpen = !isSideMenuOpen"
+                class="p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
+                aria-label="Menu"
             >
               <svg
                 class="w-6 h-6"
@@ -185,9 +173,6 @@
                 </button>
                 <template v-if="isNotificationsMenuOpen">
                   <ul
-                    x-transition:leave="transition ease-in duration-150"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
                     @blur="isNotificationsMenuOpen = false"
                     @keydown.escape="isNotificationsMenuOpen = false"
                     class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700"
@@ -248,9 +233,6 @@
                 </button>
                 <template v-if="isProfileMenuOpen">
                   <ul
-                    x-transition:leave="transition ease-in duration-150"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
                     @blur="isProfileMenuOpen = false"
                     @keydown.escape="isProfileMenuOpen = false"
                     class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
@@ -340,7 +322,7 @@
 </template>
 
 <script>
-    import { ref } from 'vue';
+    import { ref, computed } from 'vue';
     import { useRouter } from 'vue-router';
     import NavBarItem from './NavBarItem.vue';
     import NavBarTags from './NavBarTags.vue';
@@ -366,6 +348,7 @@
                 // { name: 'Repos', route: '/repos'},
                 // { name: 'Tasks', route: '/tasks'},
             ];
+            const tags = computed(() => globals.tags);
 
             const setTheme = (value) => {
                 local.set('dark', value);
@@ -391,6 +374,7 @@
                 isSideMenuOpen,
                 loading: true,
                 items,
+                tags,
                 toggleTheme,
                 logOut
             };

@@ -1,8 +1,8 @@
 <template>
     <ul>
-        <li class="relative px-6 py-3">
+        <li class="relative px-6">
             <button
-                class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                class="inline-flex items-center justify-between w-full text-sm transition-all duration-100 hover:text-gray-800 dark:hover:text-gray-200"
                 @click="isOpen = !isOpen"
                 aria-haspopup="true"
             >
@@ -10,10 +10,17 @@
                     <i class="icon-tags" />
                     <span class="ml-4">Tags</span>
                 </span>
-                <i v-if="isOpen" class="icon-down-open" />
-                <i v-if="!isOpen" class="icon-right-open" />
+                <i
+                    class="icon-right-open transition-all duration-100 ease-out"
+                    :class="isOpen ? 'rotated' : ''"
+                />
             </button>
-            <div v-if="isOpen">
+        </li>
+        <li class="relative px-6 overflow-hidden">
+            <div
+                class="relative transition-all duration-100 ease-out"
+                :class="isOpen ? 'top-0 opacity-100' : '-top-20 opacity-0'"
+            >
                 <div
                     class="submenu"
                     aria-label="submenu"
@@ -32,19 +39,25 @@
 </template>
 
 <script>
-    import { reactive, ref } from 'vue';
+    import { ref } from 'vue';
+    import { useRouter, useRoute } from 'vue-router';
+    import globals from '../js/globals.js';
 
     export default {
         setup () {
+            const router = useRouter();
+            const route = useRoute();
             const isOpen = ref(true);
-            const tags = reactive([
-                'help',
-                'general',
-                'house'
-            ]);
+            const tags = globals.tags;
 
+            // const toggleTag = (tag) => {
+            //     const filter = route?.query?.filter?.split(',') || [];
+            //     const newFilter = Array.from(new Set([...filter, tag])).join(',');
+            //     router.push({ query: { filter: newFilter } });
+            // };
             const toggleTag = (tag) => {
-                console.log('toggling tag:', tag);
+                globals.tagFilter[tag] = !globals.tagFilter[tag];
+                debugger;
             };
 
             return {
@@ -56,7 +69,11 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    .rotated {
+        transform: rotate(90deg);
+    }
+
     .submenu {
         @apply
             p-2

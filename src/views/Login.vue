@@ -36,7 +36,9 @@
     import { onMounted } from 'vue';
     import { useRouter } from 'vue-router';
     import config from '../js/config.js';
-    import { isAuthorized } from '../js/auth.js';
+    import { session } from '../js/storage.js';
+    import rxdb from '../js/rxdb.js';
+    import { buildSession, setExpirationTimer, isAuthorized } from '../js/auth.js';
 
     export default {
         setup () {
@@ -51,9 +53,17 @@
                 window.location.href = href;
             };
 
-            onMounted(() => {
-                if (isAuthorized()) {
+            onMounted(async () => {
+                const isBuilt = isAuthorized() || await buildSession(router);
+
+                if (isBuilt) {
+                    const user = session.get('user');
+                    await rxdb.init(user);
+                    setExpirationTimer();
+
                     router.push('/notes');
+                } else {
+                    router.push('/login');
                 }
             });
 

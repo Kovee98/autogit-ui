@@ -3,10 +3,12 @@
         <span class="text-gray-200 pl-2">#</span>
         <input
             :value="modelValue"
+            @change="(e) => $emit('update:modelValue', e.target.value)"
             class="leading-relaxed max-w-10 truncate focus:outline-none bg-transparent text-gray-200"
         >
+
         <i
-            @click="removeTag"
+            @click="$emit('remove')"
             class="icon-cancel p-1 cursor-pointer text-xs text-gray-500 hover:text-gray-200 duration-100"
         />
         <!-- <span class="ml-2 mr-1 leading-relaxed truncate max-w-xs px-1" x-text="tag">tag</span> -->

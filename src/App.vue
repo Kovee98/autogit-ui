@@ -12,12 +12,11 @@
 </template>
 
 <script>
-    import { onMounted, computed } from 'vue';
+    import { computed } from 'vue';
     import { useRouter } from 'vue-router';
     import NavBar from './components/NavBar.vue';
-    import { local, session } from './js/storage.js';
-    import rxdb from './js/rxdb.js';
-    import { buildSession, setExpirationTimer, isAuthorized } from './js/auth.js';
+    import { local } from './js/storage.js';
+    import { isAuthorized } from './js/auth.js';
     import emitter from './js/mitt.js';
 
     export default {
@@ -50,15 +49,15 @@
                 }
             });
 
-            onMounted(async () => {
-                const isBuilt = isAuthorized() || await buildSession(router);
+            // onMounted(async () => {
+            //     const isBuilt = isAuthorized() || await buildSession(router);
 
-                if (isBuilt) {
-                    const user = session.get('user');
-                    await rxdb.init(user);
-                    setExpirationTimer();
-                }
-            });
+            //     if (isBuilt) {
+            //         const user = session.get('user');
+            //         await rxdb.init(user);
+            //         setExpirationTimer();
+            //     }
+            // });
 
             return {
                 isDark

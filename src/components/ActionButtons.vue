@@ -1,12 +1,22 @@
 <template>
-    <div class="fixed bottom-8 right-8">
-        <div class="flex flex-col items-center justify-center">
+    <!-- backdrop for clickaway listener -->
+    <div
+        v-if="isOpen"
+        @click="isOpen = !isOpen"
+        class="absolute left-0 top-0 w-screen h-screen z-50"
+    />
+
+    <div class="fixed bottom-8 right-8 z-100">
+        <div
+            @blur="isOpen = !isOpen"
+            class="flex flex-col items-center justify-center"
+        >
             <div
-                class="relative flex items-center transition-all"
+                class="relative flex items-center transition-all ease-out"
                 :class="isOpen ? 'bottom-[3rem]' : '-bottom-24'"
             >
                 <div
-                    class="fixed right-[7rem] p-3 bg-black rounded-md text-gray-200 transition-all delay-100"
+                    class="fixed right-[7rem] p-3 bg-black rounded-md text-gray-200 transition-all delay-100 ease-out"
                     :class="isOpen ? 'opacity-100' : 'opacity-0'"
                 >
                     Add Collection
@@ -16,11 +26,11 @@
                 </button>
             </div>
             <div
-                class="relative flex items-center transition-all"
+                class="relative flex items-center transition-all ease-out"
                 :class="isOpen ? 'bottom-[1.5rem]' : '-bottom-12'"
             >
                 <div
-                    class="fixed right-[7rem] p-3 bg-black rounded-md text-gray-200 transition-all delay-100"
+                    class="fixed right-[7rem] p-3 bg-black rounded-md text-gray-200 transition-all delay-100 ease-out"
                     :class="isOpen ? 'opacity-100' : 'opacity-0'"
                 >
                     Add Note
@@ -34,7 +44,7 @@
             </div>
             <button
                 @click="isOpen = !isOpen"
-                class="relative rounded-full bg-yellow-800 w-18 h-18 shadow-md z-50 transition-all"
+                class="relative rounded-full bg-yellow-800 w-18 h-18 shadow-md z-50 transition-all ease-out"
                 :class="isOpen ? 'rotated' : ''"
             >
                 <i class="icon-plus text-gray-200 text-2xl" />

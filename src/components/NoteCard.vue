@@ -14,7 +14,7 @@
     <!-- backdrop -->
     <div
         v-if="isOpen"
-        class="absolute left-0 top-0 w-screen h-screen z-index-100 flex items-center justify-center"
+        class="absolute left-0 top-0 w-screen h-screen z-index-100 flex items-center justify-center z-200"
     >
         <div
             @click="closeNote"
@@ -30,21 +30,25 @@
 
                 <i
                     @click="closeNote"
-                    class="icon-cancel p-1 cursor-pointer text-lg text-gray-500 mb-6"
+                    class="icon-cancel p-1 mb-6 cursor-pointer text-lg text-gray-500 hover:text-gray-200 duration-100"
                 />
             </div>
 
             <!-- tags -->
             <div class="flex items-center container">
-                <!-- <span class="m-1 bg-gray-900 hover:bg-gray-300 rounded-full px-2 py-1 text-xs text-gray-200 leading-loose cursor-pointer">#thing1</span>
-                <span class="m-1 bg-gray-900 hover:bg-gray-300 rounded-full px-2 py-1 text-xs text-gray-200 leading-loose cursor-pointer">#thing2</span>
-                <span class="m-1 bg-gray-900 hover:bg-gray-300 rounded-full px-2 py-1 text-xs text-gray-200 leading-loose cursor-pointer">#thing3</span> -->
-
                 <NoteCardTag
-                    v-for="tag, i in form.tags"
-                    :key="tag.id"
+                    v-for="tag, i in form?.tags"
+                    :key="tag?.id"
                     v-model="form.tags[i]"
+                    @remove="removeTag(i)"
                 />
+
+                <div class="bg-gray-600 inline-flex items-center text-sm rounded-full px-1 py-2 mr-2 overflow-hidden h-2/3">
+                    <i
+                        @click="addTag"
+                        class="icon-plus p-1 cursor-pointer text-xs text-gray-500 hover:text-gray-200 duration-100"
+                    />
+                </div>
             </div>
 
             <ToastEditor
@@ -83,7 +87,7 @@
 </template>
 
 <script>
-    import { ref } from 'vue';
+    import { ref, reactive } from 'vue';
     import ToastEditor from './ToastEditor.vue';
     import NoteCardTag from './NoteCardTag.vue';
     import emitter from '../js/mitt.js';
@@ -102,7 +106,7 @@
 
         setup ({ note, open }) {
             const isOpen = ref((note.id === open) || false);
-            const form = JSON.parse(JSON.stringify(note.toJSON()));
+            const form = reactive(JSON.parse(JSON.stringify(note.toJSON())));
 
             const closeNote = () => {
                 isOpen.value = false;
@@ -120,6 +124,8 @@
 
             const saveNote = async () => {
                 try {
+                    // sanitize tags (no duplicates, no empties)
+                    form.tags = Array.from(new Set(form.tags.filter((tag) => tag)));
                     await db?.notes?.put(form);
                     closeNote();
                 } catch (err) {
@@ -127,12 +133,22 @@
                 }
             };
 
+            const addTag = () => {
+                form.tags.push('');
+            }
+
+            const removeTag = (i) => {
+                form.tags.splice(i, 1);
+            }
+
             return {
                 form,
                 isOpen,
                 closeNote,
                 deleteNote,
-                saveNote
+                saveNote,
+                addTag,
+                removeTag
             };
         }
     }
